@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title><%= web.name %> / Pending Student Requests</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/global.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shadow.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dialog.css">
+    <link rel="stylesheet" type="text/css" href="/styles/form.css">
+    <link rel="stylesheet" type="text/css" href="/styles/courseList.css">
+  </head>
+
+  <body fullbleed fit>
+
+    <div masthead layout-horizontal layout-center shadow elevation="1">
+
+      <div name layout-horizontal layout-center layout-center-justified><strong><%= web.name %></strong></div>
+
+      <div relative layout-vertical style="height: 100%">
+        <a href="/" tab layout-horizontal layout-center>
+          <div>Home</div>
+        </a>
+      </div>
+
+      <div relative layout-vertical style="height: 100%">
+        <a href="/pending" tab layout-horizontal layout-center active>
+          <div>Pending Student Requests</div>
+        </a>
+      </div>
+
+      <div flex></div>
+
+      <div relative layout-vertical style="height: 100%">
+
+        <div tab no-select dropdown-toggle-trigger="account-dropdown"
+             flex layout-horizontal layout-center>
+          <div><%= self.name %></div>
+          <div arrow-down></div>
+        </div>
+
+        <div id="account-dropdown" dropdown align-right shadow elevation="2" layout-vertical>
+
+          <a href="/pending" item hoverable layout-horizontal layout-center>
+            <div text>Pending Student Requests</div>
+          </a>
+
+          <a href="/logout" item hoverable layout-horizontal layout-center>
+            <div text>Logout</div>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div content layout-horizontal layout-start layout-center-justified>
+      <div layout-horizontal layout-center-justified layout-wrap>
+
+        <div course-list shadow="1">
+
+          <div header no-select layout-horizontal layout-center>
+            <div title>Pending Student Requests</div>
+            <div flex></div>
+            <div toolbar-button hoverable layout-horizontal layout-center>
+              Approve All
+            </div>
+          </div>
+
+          <%
+          teacherCourses.forEach( function( course ) {
+          %>
+
+          <div subheader no-select layout-horizontal layout-center>
+            <div title><strong><%= course.name %></strong></div>
+            <div flex></div>
+          </div>
+
+          <%
+          course.pendingStudents.forEach( function ( student ) {
+          %>
+
+          <div course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <span> <%= student.name %> </span>
+            </div>
+            <div flex></div>
+
+            <div buttons layout-horizontal layout-end>
+              <a button small red decline student-id="<%= student._id %>" course-id="<%= course._id %>">Decline</a>
+              <a button small blue approve student-id="<%= student._id %>" course-id="<%= course._id %>">Approve</a>
+            </div>
+
+          </div>
+
+          <%
+          } );
+          %>
+
+          <%
+          } );
+          %>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/flipper.js"></script>
+    <script src="/global.js"></script>
+    <script src="/controllers/dropdownController.js"></script>
+    <script src="/controllers/pendingController.js"></script>
+
+  </body>
+
+</html>

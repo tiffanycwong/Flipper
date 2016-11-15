@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title><%= web.name %></title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/global.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shadow.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dialog.css">
+    <link rel="stylesheet" type="text/css" href="/styles/form.css">
+    <link rel="stylesheet" type="text/css" href="/styles/courseList.css">
+  </head>
+
+  <body fullbleed fit>
+
+    <div masthead layout-horizontal layout-center shadow elevation="1">
+
+      <div name layout-horizontal layout-center layout-center-justified><strong><%= web.name %></strong></div>
+
+      <div relative layout-vertical style="height: 100%">
+        <a href="/" tab layout-horizontal layout-center active>
+          <div>Home</div>
+        </a>
+      </div>
+
+      <div flex></div>
+
+      <div relative layout-vertical style="height: 100%">
+
+        <div tab no-select dropdown-toggle-trigger="account-dropdown"
+             flex layout-horizontal layout-center>
+          <div><%= self.name %></div>
+          <div arrow-down></div>
+        </div>
+
+        <div id="account-dropdown" dropdown align-right shadow elevation="2" layout-vertical>
+
+          <a href="/pending" item hoverable layout-horizontal layout-center>
+            <div text>Pending Student Requests</div>
+          </a>
+
+          <a href="/logout" item hoverable layout-horizontal layout-center>
+            <div text>Logout</div>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div content layout-horizontal layout-start layout-center-justified>
+      <div layout-horizontal layout-center-justified layout-wrap>
+
+        <div course-list shadow="1">
+
+          <div header no-select layout-horizontal layout-center>
+            <div title>Courses I'm Teaching</div>
+            <div flex></div>
+            <div toolbar-button hoverable
+                 dialog-open-trigger="course-add-dialog"
+                 layout-horizontal layout-center>
+              Add
+            </div>
+          </div>
+
+          <%
+          teacherCourses.forEach( function( course ) {
+          %>
+          <a href="/courses/<%= course._id %>/minilessons" course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <div name><strong><%= course.name %></strong></div>
+              <div authors>
+                <%
+                course.teachers.forEach( function ( teacher ) {
+                %>
+                <span><%= teacher.name %></span>
+                <%
+                } );
+                %>
+              </div>
+            </div>
+
+          </a>
+          <%
+          } );
+          %>
+
+        </div>
+
+        <div course-list shadow="1">
+
+          <div header layout-horizontal layout-center>
+            <div title>Courses I'm Taking</div>
+            <div flex></div>
+            <div toolbar-button hoverable
+                 dialog-open-trigger="course-join-dialog"
+                 layout-horizontal layout-center>
+              Join
+            </div>
+          </div>
+
+          <%
+          studentCourses.forEach( function( course ) {
+          %>
+          <a href="/courses/<%= course._id %>/minilessons" course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <div name><strong><%= course.name %></strong></div>
+              <div authors>
+                <%
+                course.teachers.forEach( function ( teacher ) {
+                %>
+                <span><%= teacher.name %></span>
+                <%
+                } );
+                %>
+              </div>
+            </div>
+
+          </a>
+          <%
+          } );
+          %>
+
+          <%
+          pendingCourses.forEach( function( course ) {
+          %>
+          <div course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <div name><strong><%= course.name %></strong></div>
+              <div authors>
+                <%
+                course.teachers.forEach( function ( teacher ) {
+                %>
+                <span><%= teacher.name %></span>
+                <%
+                } );
+                %>
+              </div>
+            </div>
+
+            <div flex></div>
+
+            <div buttons layout-vertical layout-end>
+              <a button small blue disabled>Pending</a>
+            </div>
+
+          </div>
+          <%
+          } );
+          %>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div id="course-add-dialog" dialog backdrop
+         dialog-close-trigger="course-add-dialog"
+         layout-horizontal layout-center-center>
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Add Course</div>
+
+        <div inputs layout-vertical>
+
+          <div input layout-vertical>
+            <label>Course Name</label>
+            <input type="text" name-input/>
+          </div>
+
+        </div>
+
+        <div buttons layout-horizontal layout-end-justified>
+          <a button small dialog-close-trigger="course-add-dialog">Cancel</a>
+          <a button small blue create>Create</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="course-join-dialog" dialog backdrop
+         dialog-close-trigger="course-join-dialog"
+         layout-horizontal layout-center-center>
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Join Course</div>
+
+        <div inputs layout-horizontal>
+
+          <!-- <div input flex layout-vertical>
+            <label>Course Name</label>
+            <input type="text" name-input/>
+          </div>
+
+          <div input flex layout-vertical>
+            <label>Course ID</label>
+            <input type="text" id-input/>
+          </div> -->
+
+        </div>
+
+        <div course-list>
+
+          <% if (allCourses.length == 0) { %>
+          <div id="course-join-item" course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <div name><strong>Currently no available courses.</strong></div>
+            </div>
+
+            <div flex></div>
+          </div>
+          <% } %>
+
+          <%
+          allCourses.forEach( function( course ) {
+          %>
+          <div id="course-join-item" course-item layout-horizontal layout-center>
+
+            <div layout-vertical>
+              <div name><strong><%= course.name %></strong></div>
+              <div authors>
+                <%
+                course.teachers.forEach( function ( teacher ) {
+                %>
+                <span><%= teacher.name %></span>
+                <%
+                } );
+                %>
+              </div>
+            </div>
+
+            <div flex></div>
+
+            <div buttons layout-vertical layout-end>
+              <a button small blue join course-id="<%= course._id %>">Join</a>
+            </div>
+
+          </div>
+          <%
+          } );
+          %>
+
+        </div>
+
+        <div buttons layout-horizontal>
+          <a button small dialog-close-trigger="course-join-dialog">Close</a>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/flipper.js"></script>
+    <script src="/global.js"></script>
+    <script src="/controllers/dropdownController.js"></script>
+    <script src="/controllers/dialogController.js"></script>
+    <script src="/controllers/courseListController.js"></script>
+
+  </body>
+
+</html>

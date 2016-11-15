@@ -1,0 +1,47 @@
+{
+  "name": "Flipper",
+  "description": "making the flipped classroom more efficient",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.mit.edu:6170-fa15/hsuresh_tcwong_medranom_akashk16_final.git"
+  },
+  "bugs": {
+    "url": "https://github.mit.edu/6170-fa15/hsuresh_tcwong_medranom_akashk16_final/issues"
+  },
+  "homepage": "https://github.mit.edu/6170-fa15/hsuresh_tcwong_medranom_akashk16_final",
+  "author": "Akash Krishnan",
+  "license": "MIT",
+  "private": true,
+  "config": {
+    "verbose": true,
+    "branch": "master",
+    "host": "localhost",
+    "http_port": 3000,
+    "https_port": 4000,
+    "mongo": "localhost"
+  },
+  "scripts": {
+    "install": "bower update --save --allow-root && bower install --save --allow-root",
+    "init": "node init.js",
+    "lint": "eslint . || exit 0",
+    "lint-fix": "eslint . --fix || exit 0",
+    "test": "env branch=test npm run init && env branch=test mocha || exit 0",
+    "start": "node server.js",
+    "start-supervisor": "supervisor -e js,json -i public,source -q server.js",
+    "start-background": "(npm start 1> out.log 2> err.log &)"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "bower": "^1.6.5",
+    "colors": "^1.1.2",
+    "compression": "^1.6.0",
+    "cookie-parser": "^1.4.0",
+    "ejs": "^2.3.4",
+    "eslint": "^1.9.0",
+    "eslint-config-google": "^0.3.0",
+    "express": "^4.13.3",
+    "mocha": "^2.3.4",
+    "mongojs": "^2.4.0"
+  }
+}

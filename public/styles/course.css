@@ -1,0 +1,169 @@
+/**
+ * AUTHOR: Tiffany Wong
+ */
+
+[shadow] [header] {
+  height: 46px;
+  color: white;
+  background-color: #4285F4;
+}
+
+[shadow] [header] [title] {
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+[minilesson-list] {
+  margin-right: 10px;
+  width: 350px;
+}
+
+[toolbar-button] {
+  height: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+[minilesson-list] [content] {
+  overflow-y: auto;
+}
+
+[minilesson-list] [minilesson-item] {
+  padding: 16px 16px 16px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: black;
+  text-decoration: none !important;
+}
+
+[minilesson-list] [minilesson-item]:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid white;
+}
+
+[minilesson-list] [minilesson-item][active] {
+  padding: 16px 16px 16px 12px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid white;
+  border-left: 4px solid rgb(114, 192, 44);
+}
+
+[minilesson-item] [name] {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+[minilesson-item] [due-date] {
+  font-size: 12px;
+}
+
+[minilesson-item]:not(:hover) [buttons] {
+  display: none;
+}
+
+[page-list] {
+  min-height: 46px;
+  height: 46px;
+  max-height: 46px;
+  margin-bottom: 10px;
+  background-color: #4285F4;
+}
+
+[page-list] [page-item] {
+  border-top: 4px solid rgba(0, 0, 0, 0);
+  border-bottom: 4px solid rgba(0, 0, 0, 0);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  color: white;
+  text-decoration: none !important;
+}
+
+[page-list] [page-item]:last-of-type {
+  border-right: none;
+}
+
+[page-list] [page-item]:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[page-list] [page-item][active] {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 4px solid rgb(114, 192, 44);
+}
+
+[resource] {
+  margin-bottom: 10px;
+}
+
+[resource] [content] {
+  padding: 16px;
+}
+
+[mcq-list] {
+  margin-top: 5px;
+  margin-left: -5px;
+  margin-right: -5px;
+  overflow-y: auto;
+}
+
+[mcq-list] [mcq-item] {
+  width: 100%;
+  min-width: 350px;
+  max-width: 535px;
+  margin: 5px;
+}
+
+[mcq-item] [question] {
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: justify;
+}
+
+[mcq-item] [choices] {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[mcq-item] [choices] [choice]:first-child {
+  padding-top: 16px;
+}
+
+[mcq-item] [choices] [choice] {
+  padding: 0 16px 16px;
+  text-align: justify;
+}
+
+[mcq-item] [choices] [choice] input[type="radio"] {
+  margin-right: 16px;
+}
+
+[mcq-item] [choices] [choice] div {
+  margin-right: 16px;
+}
+
+[mcq-item] [buttons] {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+[mcq-item] [buttons] [button][small]:first-child {
+  margin-left: 0;
+}
+
+[mcq-item] [buttons] [button][small] {
+  margin: 12px 0 12px 16px;
+}
+
+#minilesson-add-dialog [form],
+#page-add-dialog [form] {
+  width: 300px;
+}
+
+#mcq-add-dialog [form] {
+  width: 350px;
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Flipper",
+  "version": "1.0.0",
+  "authors": [
+    "Akash Krishnan <ak@aakay.net>"
+  ],
+  "description": "making the flipped classroom more efficient",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "https://github.mit.edu/6170-fa15/hsuresh_tcwong_medranom_akashk16_final",
+  "private": true,
+  "dependencies": {
+    "moment": "2.10.6",
+    "toastr": "2.1.2"
+  }
+}

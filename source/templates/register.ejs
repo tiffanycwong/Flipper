@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title><%= web.name %> / Registration</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/global.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shadow.css">
+    <link rel="stylesheet" type="text/css" href="/styles/form.css">
+    <link rel="stylesheet" type="text/css" href="/styles/register.css">
+  </head>
+
+  <body fullbleed fit>
+
+    <div masthead layout-horizontal layout-center shadow elevation="1">
+
+      <div name layout-horizontal layout-center layout-center-justified><strong><%= web.name %></strong></div>
+
+    </div>
+
+    <div content>
+      <div layout-horizontal layout-center-justified>
+        <div register form shadow elevation="1">
+
+          <div header>Account Registration</div>
+
+          <div text>Please complete the following form.</div>
+
+          <div inputs layout-vertical>
+
+            <div input layout-vertical>
+              <label>Full Name</label>
+              <input type="text" id="name"/>
+            </div>
+
+            <div input layout-vertical>
+              <label>Username</label>
+              <input type="text" id="username"/>
+            </div>
+
+            <div input layout-vertical>
+              <label>Password</label>
+              <input type="password" id="password"/>
+            </div>
+
+            <div input layout-vertical>
+              <label>Verify Password</label>
+              <input type="password" id="password_verify"/>
+            </div>
+
+          </div>
+
+          <div buttons layout-horizontal>
+            <a button blue login flex href="/">Login</a>
+            <a button green register flex>Register</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/flipper.js"></script>
+    <script src="/global.js"></script>
+    <script src="/controllers/registerController.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,45 @@
+/**
+ * Created by akashkrishnan on 17-Nov-15.
+ * Last modified by akashkrishnan on 17-Nov-15 16:27.
+ */
+
+[dropdown] {
+  position: absolute;
+  z-index: 2;
+  visibility: hidden;
+}
+
+[dropdown][align-left] {
+  left: 0;
+}
+
+[dropdown][align-right] {
+  right: 0;
+}
+
+[dropdown] [item] {
+  height: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  text-decoration: none !important;
+  color: black;
+}
+
+[dropdown] [item]:last-child {
+  border-bottom: none;
+}
+
+[dropdown] [item] [text] {
+  padding-left: 16px;
+  padding-right: 16px;
+  white-space: nowrap;
+}
+
+[dropdown] [item][hoverable]:hover {
+  color: black;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+[dropdown] [item][hoverable]:hover:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}

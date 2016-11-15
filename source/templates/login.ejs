@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title><%= web.name %></title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/global.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shadow.css">
+    <link rel="stylesheet" type="text/css" href="/styles/form.css">
+    <link rel="stylesheet" type="text/css" href="/styles/login.css">
+  </head>
+
+  <body fullbleed fit>
+
+    <div masthead layout-horizontal layout-center shadow elevation="1">
+
+      <div name layout-horizontal layout-center layout-center-justified><strong><%= web.name %></strong></div>
+
+    </div>
+
+    <div content>
+      <div layout-horizontal layout-center-justified>
+        <div login form shadow elevation="1">
+
+          <div header>Account Login</div>
+
+          <div text>Please enter your credentials below.</div>
+
+          <div inputs layout-vertical>
+
+            <div input layout-vertical>
+              <label>Username</label>
+              <input type="text" id="username"/>
+            </div>
+
+            <div input layout-vertical>
+              <label>Password</label>
+              <input type="password" id="password"/>
+            </div>
+
+          </div>
+
+          <div buttons layout-horizontal>
+            <a button green register flex href="/register">Register</a>
+            <a button blue login flex>Login</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/flipper.js"></script>
+    <script src="/global.js"></script>
+    <script src="/controllers/loginController.js"></script>
+
+  </body>
+
+</html>

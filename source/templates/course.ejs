@@ -1,0 +1,521 @@
+<!--
+  AUTHOR: Tiffany Wong
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title><%= course.name %></title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="/toastr/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/global.css">
+    <link rel="stylesheet" type="text/css" href="/styles/layout.css">
+    <link rel="stylesheet" type="text/css" href="/styles/shadow.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dropdown.css">
+    <link rel="stylesheet" type="text/css" href="/styles/dialog.css">
+    <link rel="stylesheet" type="text/css" href="/styles/form.css">
+    <link rel="stylesheet" type="text/css" href="/styles/course.css">
+  </head>
+
+  <body fullbleed fit>
+
+    <div masthead layout-horizontal layout-center shadow elevation="1">
+
+      <div name layout-horizontal layout-center layout-center-justified><strong><%= web.name %></strong></div>
+
+      <div relative layout-vertical style="height: 100%">
+        <a href="/" tab layout-horizontal layout-center>
+          <div>Home</div>
+        </a>
+      </div>
+
+      <div relative layout-vertical style="height: 100%">
+
+        <div tab no-select dropdown-toggle-trigger="course-dropdown"
+             flex layout-horizontal layout-center
+             active>
+          <div><%= course.name %></div>
+          <div arrow-down></div>
+        </div>
+
+        <div id="course-dropdown" dropdown align-left shadow elevation="2" layout-vertical>
+
+          <%
+          teacherCourses.forEach( function( course ) {
+          %>
+          <a href="/courses/<%= course._id %>/minilessons" item hoverable layout-horizontal layout-center>
+            <div text><%= course.name %></div>
+          </a>
+          <%
+          } );
+          %>
+
+          <%
+          studentCourses.forEach( function( course ) {
+          %>
+          <a href="/courses/<%= course._id %>/minilessons" item hoverable layout-horizontal layout-center>
+            <div text><%= course.name %></div>
+          </a>
+          <%
+          } );
+          %>
+
+        </div>
+
+      </div>
+
+      <div flex></div>
+
+      <div relative layout-vertical style="height: 100%">
+
+        <div tab no-select dropdown-toggle-trigger="account-dropdown"
+             flex layout-horizontal layout-center>
+          <div><%= self.name %></div>
+          <div arrow-down></div>
+        </div>
+
+        <div id="account-dropdown" dropdown align-right shadow elevation="2" layout-vertical>
+
+          <a href="/pending" item hoverable layout-horizontal layout-center>
+            <div text>Pending Student Requests</div>
+          </a>
+
+          <a href="/logout" item hoverable layout-horizontal layout-center>
+            <div text>Logout</div>
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div content layout-vertical>
+      <div flex layout-horizontal>
+
+        <div minilesson-list shadow elevation="1" layout-vertical>
+
+          <div header no-select layout-horizontal layout-center>
+
+            <div title>Minilessons</div>
+            <div flex></div>
+
+            <% if ( course.teaching ) { %>
+            <div toolbar-button hoverable
+                 dialog-open-trigger="minilesson-add-dialog"
+                 layout-horizontal layout-center>
+              Add
+            </div>
+            <% } %>
+
+          </div>
+
+          <div content flex layout-vertical>
+            <% minilessons.forEach( function( _minilesson ) { %>
+
+            <a href="/courses/<%= course._id %>/minilessons/<%= _minilesson._id %>"
+               minilesson-item no-select
+              <%= minilesson._id && _minilesson._id.toString() === minilesson._id.toString() ? 'active' : '' %>
+               layout-horizontal>
+
+              <div flex layout-vertical>
+
+                <div name><strong><%= _minilesson.title %></strong></div>
+
+                <% if ( _minilesson.timestamps.due_date ) { %>
+                <span time="<%= _minilesson.timestamps.due_date %>" due-date></span>
+                <% } else { %>
+                <div due-date>No due date.</div>
+                <% } %>
+
+              </div>
+
+              <% if ( course.teaching ) { %>
+              <div buttons layout-horizontal layout-center>
+
+                <% if ( !_minilesson.states.published ) { %>
+
+                <div button
+                     id="publish-btn"
+                     course-id="<%= course._id %>"
+                     minilesson-id="<%= _minilesson._id %>"
+                     icon="publish"></div>
+
+                <div button
+                     id="edit-btn"
+                     course-id="<%= course._id %>"
+                     minilesson-id="<%= _minilesson._id %>"
+                     dialog-open-trigger="minilesson-edit-dialog"
+                     icon="edit"></div>
+
+                <% } %>
+
+                <div button
+                     id="remove-btn"
+                     course-id="<%= course._id %>"
+                     minilesson-id="<%= _minilesson._id %>"
+                     icon="remove"></div>
+
+              </div>
+              <% } %>
+
+            </a>
+
+            <% } ); %>
+
+          </div>
+
+        </div>
+
+        <% if ( minilesson._id ) { %>
+
+        <div flex layout-vertical>
+
+          <div page-list shadow elevation="1" layout-horizontal layout-end-justified>
+
+            <% pages.forEach( function( _page ) { %>
+
+            <a href="/courses/<%= course._id %>/minilessons/<%= minilesson._id %>/<%= _page._id %>"
+               page-item no-select <%= page._id && _page._id.toString() === page._id.toString() ? 'active' : '' %>
+               flex layout-horizontal layout-center-center>
+              <%= _page.title %>
+            </a>
+
+            <% } ); %>
+
+            <% if ( course.teaching ) { %>
+            <div toolbar-button hoverable
+                 dialog-open-trigger="page-add-dialog"
+                 layout-horizontal layout-center>
+              Add
+            </div>
+            <% } %>
+
+          </div>
+
+          <% if ( page._id ) { %>
+
+          <% if ( course.teaching || page.resource ) { %>
+          <div resource shadow elevation="1">
+
+            <div header no-select layout-horizontal layout-center>
+
+              <div title>Resource</div>
+              <div flex></div>
+
+              <% if ( course.teaching ) { %>
+              <div toolbar-button hoverable
+                   dialog-open-trigger="resource-set-dialog"
+                   layout-horizontal layout-center onclick="alert('Cannot set resource at this time.')">
+                Set
+              </div>
+              <% } %>
+
+            </div>
+
+            <% if ( page.resource ) { %>
+            <div content flex layout-horizontal layout-center-center><%= page.resource %></div>
+            <% } else { %>
+            <div content flex layout-horizontal layout-center-center>
+              No resource is available for this page. This section will not show up for students.
+            </div>
+            <% } %>
+
+          </div>
+
+          <% } %>
+
+          <div shadow elevation="1" layout-vertical>
+
+            <div header no-select layout-horizontal layout-center>
+
+              <div title>Multiple Choice Questions</div>
+              <div flex></div>
+
+              <% if ( course.teaching ) { %>
+              <div toolbar-button hoverable
+                   dialog-open-trigger="mcq-add-dialog"
+                   layout-horizontal layout-center>
+                Add
+              </div>
+              <% } %>
+
+            </div>
+
+            <% var lookup = [ 'A', 'B', 'C', 'D', 'E' ]; %>
+
+            <% if ( !mcqs || !mcqs.length ) { %>
+            <div content flex layout-horizontal layout-center-center style="padding: 16px;">
+              There are no multiple choice questions for this page.
+            </div>
+            <% } %>
+          </div>
+
+          <% } else { %>
+
+          <div shadow elevation="1" flex layout-horizontal layout-center-center>
+            Please select a page.
+          </div>
+
+          <% } %>
+
+          <div mcq-list layout-horizontal layout-around-justified layout-start layout-wrap>
+
+            <% mcqs.forEach( function ( mcq ) { %>
+
+            <div mcq-item shadow elevation="1" flex layout-vertical mcq-id="<%= mcq._id %>">
+
+              <div question><strong><%= mcq.question %></strong></div>
+
+              <div choices>
+
+                <% mcq.answers.forEach( function ( answer ) { %>
+                <div choice layout-horizontal>
+
+                  <% if ( minilesson.due_date_passed || course.teaching ) { %>
+                  <% if ( mcq.answer === answer ) { %>
+                  <input class="submit-radio-answer"
+                         type="radio"
+                         name="student-answer-options"
+                         value="<%= answer %>"
+                         checked
+                         disabled>
+                  <% } else { %>
+                  <input class="submit-radio-answer"
+                         type="radio"
+                         name="student-answer-options"
+                         value="<%= answer %>"
+                         disabled>
+                  <% } %>
+                  <% } else if ( mcq.submitted ) { %>
+                  <% if ( mcq.submittedAnswer === answer ) { %>
+                  <input class="submit-radio-answer"
+                         type="radio"
+                         name="student-answer-options"
+                         value="<%= answer %>"
+                         checked
+                         disabled>
+                  <% } else { %>
+                  <input class="submit-radio-answer"
+                         type="radio"
+                         name="student-answer-options"
+                         value="<%= answer %>"
+                         disabled>
+                  <% } %>
+                  <% } else { %>
+                  <input class="submit-radio-answer" type="radio" name="student-answer-options" value="<%= answer %>">
+                  <% } %>
+
+                  <div flex><%= answer %></div>
+
+                </div>
+                <% } ); %>
+
+              </div>
+
+              <div buttons layout-horizontal layout-end-justified>
+
+                <% if ( course.teaching ) { %>
+                <div button small blue download class="downloadGrades">Download Grades</div>
+                <div button small red remove>Delete</div>
+                <% } else if ( mcq.submitted ) {
+                  if ( mcq.submittedAnswer.length > 18 ) {
+                    submittedAnswer = mcq.submittedAnswer.substring( 0, 18 ) + "...";
+                  } else {
+                    submittedAnswer = mcq.submittedAnswer;
+                  }
+                %>
+                <div button small blue disabled>You submitted: <%= submittedAnswer %> </div>
+                <% } else { %>
+                <div button small blue submit>Submit</div>
+                <% } %>
+
+              </div>
+
+            </div>
+            <% } ); %>
+
+          </div>
+
+          <% if ( page._id && course.teaching ) { %>
+          <div button id="remove-page-btn" small page-id="<%= page._id %>">Delete Page</div>
+          <% } %>
+
+        </div>
+
+        <% } %>
+
+      </div>
+    </div>
+
+    <div id="minilesson-add-dialog" dialog backdrop
+         course-id="<%= course._id %>"
+         dialog-close-trigger="minilesson-add-dialog"
+         layout-horizontal layout-center-center>
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Add Minilesson</div>
+
+        <div inputs layout-vertical>
+
+          <div input layout-vertical>
+            <label>Minilesson Title</label>
+            <input type="text" title-input/>
+          </div>
+
+          <div input layout-vertical>
+            <label>Due Date (optional)</label>
+            <input type="datetime-local" due-Date-input>
+          </div>
+
+        </div>
+
+        <div buttons layout-horizontal layout-end-justified>
+          <a button small dialog-close-trigger="minilesson-add-dialog">Cancel</a>
+          <a button small blue create>Create</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="minilesson-edit-dialog" dialog backdrop
+         course-id="<%= course._id %>"
+         dialog-close-trigger="minilesson-edit-dialog"
+         layout-horizontal layout-center-center>
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Edit Minilesson</div>
+
+        <div inputs layout-vertical>
+
+          <div input layout-vertical>
+            <label>New Minilesson Title</label>
+            <input type="text" title-input/>
+          </div>
+
+          <div input layout-vertical>
+            <label>New Due Date (optional)</label>
+            <input type="datetime-local" due-Date-input>
+          </div>
+
+        </div>
+
+        <div buttons layout-horizontal layout-end-justified>
+          <a button small dialog-close-trigger="minilesson-edit-dialog">Cancel</a>
+          <a button small blue set>Set</a>
+        </div>
+
+      </div>
+    </div>
+
+    <% if ( minilesson._id ) { %>
+
+    <div id="page-add-dialog" dialog backdrop
+         minilesson-id="<%= minilesson._id %>"
+         dialog-close-trigger="page-add-dialog"
+         layout-horizontal layout-center-center>
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Add Page</div>
+
+        <div inputs layout-vertical>
+
+          <div input layout-vertical>
+            <label>Page Title</label>
+            <input type="text" title-input/>
+          </div>
+
+          <div input layout-vertical>
+            <label>Resource Link (optional)</label>
+            <input type="url" resource-input/>
+          </div>
+
+        </div>
+
+        <div buttons layout-horizontal layout-end-justified>
+          <a button small dialog-close-trigger="page-add-dialog">Cancel</a>
+          <a button small blue create>Create</a>
+        </div>
+
+      </div>
+    </div>
+
+    <% } %>
+
+    <% if ( page && page._id ) { %>
+
+    <div id="mcq-add-dialog" dialog backdrop
+         page-id="<%= page._id %>"
+         dialog-close-trigger="mcq-add-dialog"
+         layout-horizontal layout-center-center>
+
+      <div form shadow elevation="5" layout-vertical>
+
+        <div header>Add Multiple Choice Question</div>
+
+        <div inputs layout-vertical>
+
+
+          <div input flex layout-vertical>
+            <label>Question (select the correct answer)</label>
+            <input type="text" question-input/>
+          </div>
+
+          <div flex layout-vertical>
+
+            <div input layout-horizontal layout-center-center>
+              <input class="create-radio-answer" type="radio" name="answer-options" value="choiceA">
+              <input flex type="text" choiceA-input/>
+            </div>
+
+            <div input layout-horizontal layout-center-center>
+              <input class="create-radio-answer" type="radio" name="answer-options" value="choiceB">
+              <input flex type="text" choiceB-input/>
+            </div>
+
+            <div input layout-horizontal layout-center-center>
+              <input class="create-radio-answer" type="radio" name="answer-options" value="choiceC">
+              <input flex type="text" choiceC-input/>
+            </div>
+
+            <div input layout-horizontal layout-center-center>
+              <input class="create-radio-answer" type="radio" name="answer-options" value="choiceD">
+              <input flex type="text" choiceD-input/>
+            </div>
+
+            <div input layout-horizontal layout-center-center>
+              <input class="create-radio-answer" type="radio" name="answer-options" value="choiceE">
+              <input flex type="text" choiceE-input/>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div buttons layout-horizontal layout-end-justified>
+          <a button small dialog-close-trigger="mcq-add-dialog">Cancel</a>
+          <a button small blue create>Create</a>
+        </div>
+
+      </div>
+    </div>
+
+    <% } %>
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/moment/min/moment.min.js"></script>
+    <script src="/toastr/toastr.min.js"></script>
+    <script src="/flipper.js"></script>
+    <script src="/global.js"></script>
+    <script src="/controllers/dropdownController.js"></script>
+    <script src="/controllers/dialogController.js"></script>
+    <script src="/controllers/courseController.js"></script>
+    <script src="/controllers/gradeController.js"></script>
+    <script src="/controllers/timeFormatController.js"></script>
+
+
+  </body>
+
+</html>
